@@ -6,6 +6,8 @@
 char buffer[BLEN];
 char* digits = "0123456789abcdef";
 
+// Name : Mariam Mousa
+// Student number : 301589847
 uint64_t factorial(uint64_t n) {
     if ( n == 0 ) {
         return 1;
@@ -17,6 +19,8 @@ uint64_t factorial(uint64_t n) {
     }
 }
 
+// Name : Mariam Mousa
+// Student number : 301589847
 char* to_base(uint64_t v, short base, char ending) {
     unsigned char c;
     char* pos = buffer + BLEN - 2;
