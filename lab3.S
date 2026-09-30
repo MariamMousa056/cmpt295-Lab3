@@ -42,7 +42,6 @@ loop_start:
     # otherwise : if our n is less, well call print_uint64 : 
     # first we need to put the value we want to print in rdi (arg1 register)
     mov %r14, %rdi
-    # call print
     call print_uint64
     # add r14 to itself : 
     add %r14, %r14
@@ -59,5 +58,36 @@ end_of_power2:
     ret
 
 hailstone_length:
-    mov $0, %rax
+    # storing lenght (%r12) (with starts at 0) in a call preserverd register
+    # storing n (%r13) in a call preserverd function to make sure we don't lose it somehow 
+    push %r12
+    push %r13
+    mov $0, %r12
+    mov %rdi, %r13
+loop_start2: 
+    # checking if n == 1, if it is well jump to the end of the function and return lenght
+    cmp $1, %r13
+    je end_of_hailstone_length
+    # otherwise if n != 1, we add 1 to lenght
+    add $1, %r12
+    # we check/test if n is even by doing bitwise and; (will set ZF for even numbers): 
+    test $1, %r13
+    # we will jump to 'num_not_even' if ZF flag is not set 
+    jnz num_not_even
+    # otherwise if the number is even we keep going, and we divide the number by 2 then go to the top of the loop: 
+    shr $1, %r13
+    jmp loop_start2
+
+# if n is not even we will do 'n = 3*n + 1' : 
+num_not_even : 
+    imul $3, %r13
+    add $1, %r13
+    jmp loop_start2
+end_of_hailstone_length: 
+    # we put lenght in rax register to return it
+    mov %r12, %rax
+    # pop all the registers in the stack in opposite order we pushed 
+    pop %r13
+    pop %r12
+    # return! 
     ret
