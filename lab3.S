@@ -57,17 +57,19 @@ end_of_power2:
     pop %r12
     ret
 
+
+
 hailstone_length:
     # storing lenght (%r12) (with starts at 0) in a call preserverd register
     # storing n (%r13) in a call preserverd function to make sure we don't lose it somehow 
     push %r12
     push %r13
-    mov $0, %r12
-    mov %rdi, %r13
+    mov $0, %r12 # saving length
+    mov %rdi, %r13 # saving n 
 loop_start2: 
     # checking if n == 1, if it is well jump to the end of the function and return lenght
     cmp $1, %r13
-    je end_of_hailstone_length
+    je end_of_hailstone_length # if n = 1; jumping to the end
     # otherwise if n != 1, we add 1 to lenght
     add $1, %r12
     # we check/test if n is even by doing bitwise and; (will set ZF for even numbers): 
@@ -83,6 +85,7 @@ num_not_even :
     imul $3, %r13
     add $1, %r13
     jmp loop_start2
+
 end_of_hailstone_length: 
     # we put lenght in rax register to return it
     mov %r12, %rax
